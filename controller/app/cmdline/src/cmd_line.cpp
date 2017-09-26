@@ -3097,7 +3097,7 @@ int cmd_line::cmd_show_connections(int total_matched, std::vector<cli_argument *
         {
             avdecc_lib::stream_input_descriptor * instream = in_descriptor->get_stream_input_desc_by_index(in_stream_index);
             avdecc_lib::stream_input_get_rx_state_response * stream_input_resp_ref = instream->get_stream_input_get_rx_state_response();
-            if (!stream_input_resp_ref->get_rx_state_connection_count())
+            if (!stream_input_resp_ref || !stream_input_resp_ref->get_rx_state_connection_count())
             {
                 delete stream_input_resp_ref;
                 continue;
@@ -3118,7 +3118,8 @@ int cmd_line::cmd_show_connections(int total_matched, std::vector<cli_argument *
                     avdecc_lib::stream_input_get_rx_state_response * stream_input_resp_ref = instream->get_stream_input_get_rx_state_response();
                     avdecc_lib::stream_output_descriptor * outstream = out_descriptor->get_stream_output_desc_by_index(out_stream_index);
                     avdecc_lib::stream_output_get_tx_state_response * stream_output_resp_ref = outstream->get_stream_output_get_tx_state_response();
-                    if (!stream_output_resp_ref->get_tx_state_connection_count() ||
+                    if (!stream_output_resp_ref || !stream_input_resp_ref ||
+                        !stream_output_resp_ref->get_tx_state_connection_count() ||
                         (stream_input_resp_ref->get_rx_state_stream_id() != stream_output_resp_ref->get_tx_state_stream_id()))
                     {
                         delete stream_input_resp_ref;
