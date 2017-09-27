@@ -4496,9 +4496,12 @@ int cmd_line::cmd_set_sampling_rate(int total_matched, std::vector<cli_argument 
 
     if (desc_type_value == avdecc_lib::AEM_DESC_AUDIO_UNIT)
     {
+        avdecc_lib::audio_unit_descriptor * audio_unit_desc_ref = configuration->get_audio_unit_desc_by_index(desc_index);
+        if (!audio_unit_desc_ref)
+            return 0;
         intptr_t cmd_notification_id = get_next_notification_id();
         sys->set_wait_for_next_cmd((void *)cmd_notification_id);
-        avdecc_lib::audio_unit_descriptor * audio_unit_desc_ref = configuration->get_audio_unit_desc_by_index(desc_index);
+
         audio_unit_desc_ref->send_set_sampling_rate_cmd((void *)cmd_notification_id, new_sampling_rate);
         int status = sys->get_last_resp_status();
 
@@ -4542,9 +4545,12 @@ int cmd_line::cmd_get_sampling_rate(int total_matched, std::vector<cli_argument 
 
     if (desc_type_value == avdecc_lib::AEM_DESC_AUDIO_UNIT)
     {
+        avdecc_lib::audio_unit_descriptor * audio_unit_desc_ref = configuration->get_audio_unit_desc_by_index(desc_index);
+        if (!audio_unit_desc_ref)
+            return 0;
         intptr_t cmd_notification_id = get_next_notification_id();
         sys->set_wait_for_next_cmd((void *)cmd_notification_id);
-        avdecc_lib::audio_unit_descriptor * audio_unit_desc_ref = configuration->get_audio_unit_desc_by_index(desc_index);
+
         audio_unit_desc_ref->send_get_sampling_rate_cmd((void *)cmd_notification_id);
         int status = sys->get_last_resp_status();
 
